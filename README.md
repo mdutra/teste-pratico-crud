@@ -8,7 +8,7 @@
 
 ## Dependências
 
-Installe esses programas no seu sistema para rodar a aplicação.
+Instale esses programas no seu sistema para rodar a aplicação.
 
 - docker
 - docker-compose
