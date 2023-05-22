@@ -13,10 +13,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
-app.post("/signup", async (req, res) => {
+app.post("/signup", async (req, res, next) => {
     const { email, nome, senha } = req.body;
 
-    const token = await UserController.signup(email, nome, senha);
+    let token;
+    try {
+        token = await UserController.signup(email, nome, senha);
+    } catch (e) {
+        next(e);
+    }
 
     res.json({ token });
 });
@@ -24,8 +29,9 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req, res, next) => {
     const { email, senha } = req.body;
 
+    let token;
     try {
-        const token = await UserController.login(email, senha);
+        token = await UserController.login(email, senha);
     } catch (e) {
         next(e);
     }
