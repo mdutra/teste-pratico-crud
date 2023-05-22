@@ -16,7 +16,7 @@ app.use(cors());
 app.post("/signup", async (req, res) => {
     const { email, nome, senha } = req.body;
 
-    const token = await UserController.signup(email, nome, senha)
+    const token = await UserController.signup(email, nome, senha);
 
     res.json({ token });
 });
@@ -34,14 +34,14 @@ app.post("/login", async (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  for (const errorType of errorTypes) {
-    if (err instanceof errorType) {
-      return res.status(err.statusCode).json({ erro: err.message });
+    for (const errorType of errorTypes) {
+        if (err instanceof errorType) {
+            return res.status(err.statusCode).json({ erro: err.message });
+        }
     }
-  }
 
-  res.status(500).json({ erro: 'Erro interno do servidor' });
-})
+    res.status(500).json({ erro: "Erro interno do servidor" });
+});
 
 app.listen(PORT, () => {
     console.log(`Listening at http://localhost:${PORT}`);

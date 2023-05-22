@@ -1,9 +1,9 @@
 class EmailExists extends Error {
-  constructor(message) {
-    super(message || "Email já existe");
-    this.statusCode = 409
-    this.message
-  }
+    constructor(message) {
+        super(message || "Email já existe");
+        this.statusCode = 409;
+        this.message;
+    }
 }
 
 class InvalidEmailOrPassword extends Error {
@@ -17,7 +17,7 @@ class InvalidEmailOrPassword extends Error {
 const errorTypes = [EmailExists, InvalidEmailOrPassword];
 
 module.exports = {
-  errorTypes,
-  EmailExists,
-  InvalidEmailOrPassword,
-}
+    errorTypes,
+    EmailExists,
+    InvalidEmailOrPassword,
+};
