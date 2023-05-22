@@ -1,20 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const knex = require("knex");
+const { errorTypes } = require("./error");
+const UserController = require("./controller/user-controller");
 
 const PORT = 5000;
-
-const db = knex({
-    client: "pg",
-    connection: {
-        host: process.env.POSTGRES_HOST,
-        port: 5432,
-        user: process.env.POSTGRES_USER,
-        password: process.env.POSTGRES_PASSWORD,
-        database: process.env.POSTGRES_DB,
-    },
-});
 
 const app = express();
 
@@ -22,6 +12,24 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
+
+app.post("/signup", async (req, res) => {
+    const { email, nome, senha } = req.body;
+
+    const token = await UserController.signup(email, nome, senha)
+
+    res.json({ token });
+});
+
+app.use((err, req, res, next) => {
+  for (const errorType of errorTypes) {
+    if (err instanceof errorType) {
+      return res.status(err.statusCode).json({ erro: err.message });
+    }
+  }
+
+  res.status(500).json({ erro: 'Erro interno do servidor' });
+})
 
 app.listen(PORT, () => {
     console.log(`Listening at http://localhost:${PORT}`);
