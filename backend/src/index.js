@@ -21,6 +21,18 @@ app.post("/signup", async (req, res) => {
     res.json({ token });
 });
 
+app.post("/login", async (req, res, next) => {
+    const { email, senha } = req.body;
+
+    try {
+        const token = await UserController.login(email, senha);
+    } catch (e) {
+        next(e);
+    }
+
+    res.json({ token });
+});
+
 app.use((err, req, res, next) => {
   for (const errorType of errorTypes) {
     if (err instanceof errorType) {
