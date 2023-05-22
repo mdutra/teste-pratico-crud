@@ -3,7 +3,7 @@
 ## Stack e principais ferramentas
 
 - Banco de Dados: PostgreSQL
-- Backend (REST API): Node, Express, Knextjs
+- Backend (REST API): Node, Express, Knexjs
 - Frontend (Single-Page App): React, React Router e Material UI 
 
 ## Dependências
