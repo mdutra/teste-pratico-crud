@@ -1,0 +1,34 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: teste_pratico_crud
+    ports:
+      - '5432:5432'
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: teste_pratico_crud
+      JWT_SECRET_KEY: d78fa0ba540320171df3e5c8c35fff63b33a97f933c6a9391d0c49f3c2044a83
+    command: bash -c "wait-for-it.sh db:5432 --timeout=60 --strict -- yarn run migrate && yarn start"
+    depends_on:
+      - db
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '80:80'
+    depends_on:
+      - backend
