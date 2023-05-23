@@ -14,10 +14,33 @@ class InvalidEmailOrPassword extends Error {
     }
 }
 
-const errorTypes = [EmailExists, InvalidEmailOrPassword];
+class UnauthorizedError extends Error {
+    constructor(message) {
+        super(message || "Não autorizado");
+        this.statusCode = 401;
+        this.message;
+    }
+}
+
+class InvalidTokenError extends Error {
+    constructor(message) {
+        super(message || "Token inválido");
+        this.statusCode = 403;
+        this.message;
+    }
+}
+
+const errorTypes = [
+    EmailExists,
+    InvalidEmailOrPassword,
+    UnauthorizedError,
+    InvalidTokenError,
+];
 
 module.exports = {
     errorTypes,
     EmailExists,
     InvalidEmailOrPassword,
+    UnauthorizedError,
+    InvalidTokenError,
 };
