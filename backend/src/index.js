@@ -1,8 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { handleError } = require("./middleware/custom-middlewares.js");
+const {
+    handleError,
+    handleAuthentication,
+} = require("./middleware/custom-middlewares.js");
 const UserController = require("./controller/user-controller");
+const ComponentRepository = require("./repository/component-repository");
 
 const PORT = 5000;
 
@@ -37,6 +41,12 @@ app.post("/login", async (req, res, next) => {
     }
 
     res.json({ token });
+});
+
+app.get("/componentes", handleAuthentication, async (req, res) => {
+    const componentes = await ComponentRepository.findComponents();
+
+    res.json(componentes);
 });
 
 app.use(handleError);
