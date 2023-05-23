@@ -1,5 +1,9 @@
 const jwt = require("jsonwebtoken");
-const { UnauthorizedError, InvalidTokenError } = require("../error");
+const {
+    errorTypes,
+    UnauthorizedError,
+    InvalidTokenError,
+} = require("../error");
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
@@ -24,6 +28,17 @@ function handleAuthentication(req, res, next) {
     }
 }
 
+function handleError(err, req, res, next) {
+    for (const errorType of errorTypes) {
+        if (err instanceof errorType) {
+            return res.status(err.statusCode).json({ erro: err.message });
+        }
+    }
+
+    res.status(500).json({ erro: "Erro interno do servidor" });
+}
+
 module.exports = {
     handleAuthentication,
+    handleError,
 };

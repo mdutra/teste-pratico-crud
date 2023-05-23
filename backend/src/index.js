@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { errorTypes } = require("./error");
+const { handleError } = require("./middleware/custom-middlewares.js");
 const UserController = require("./controller/user-controller");
 
 const PORT = 5000;
@@ -39,15 +39,7 @@ app.post("/login", async (req, res, next) => {
     res.json({ token });
 });
 
-app.use((err, req, res, next) => {
-    for (const errorType of errorTypes) {
-        if (err instanceof errorType) {
-            return res.status(err.statusCode).json({ erro: err.message });
-        }
-    }
-
-    res.status(500).json({ erro: "Erro interno do servidor" });
-});
+app.use(handleError);
 
 app.listen(PORT, () => {
     console.log(`Listening at http://localhost:${PORT}`);
