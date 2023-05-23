@@ -13,7 +13,7 @@ exports.up = async function (knex) {
         {
             id_usuario: 1,
             nome: "João Silva",
-            email: "joão@exemplo.com",
+            email: "joao@exemplo.com",
             senha: await somePassword(),
         },
         {
@@ -64,7 +64,6 @@ exports.up = async function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = async function (knex) {
-    // If you need to rollback, you can delete the seeded data here
     await knex("comp_fotovoltaico").del();
     await knex("usuario").del();
     await knex("grupo").del();
