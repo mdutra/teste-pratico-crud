@@ -48,7 +48,7 @@ app.get("/componentes", handleAuthentication, async (req, res, next) => {
     try {
         components = await ComponentRepository.findComponents(req.query);
     } catch (e) {
-        next(e);
+        return next(e);
     }
 
     res.json(components);
@@ -77,7 +77,7 @@ app.delete(
                 req.params.id_comp_fotovoltaico
             );
         } catch (e) {
-            next(e);
+            return next(e);
         }
 
         res.sendStatus(204);
@@ -94,7 +94,7 @@ app.put(
                 req.body
             );
         } catch (e) {
-            next(e);
+            return next(e);
         }
 
         res.sendStatus(204);
