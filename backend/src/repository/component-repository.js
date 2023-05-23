@@ -10,8 +10,6 @@ async function findComponents({ nome, id_grupo }) {
         query.where("id_grupo", "=", id_grupo);
     }
 
-    console.log(query.toSQL().sql);
-
     return query;
 }
 
