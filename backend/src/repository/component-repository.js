@@ -45,7 +45,14 @@ async function insertComponent({
     return newComponent[0].id_comp_fotovoltaico;
 }
 
+async function deleteComponentById(id_comp_fotovoltaico) {
+    await db("comp_fotovoltaico")
+        .where("id_comp_fotovoltaico", "=", id_comp_fotovoltaico)
+        .update({ deleted_at: db.raw("CURRENT_TIMESTAMP") });
+}
+
 module.exports = {
     findComponents,
     insertComponent,
+    deleteComponentById,
 };

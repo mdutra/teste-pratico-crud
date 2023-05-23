@@ -58,6 +58,18 @@ app.post("/componentes", handleAuthentication, async (req, res) => {
     res.json({ id_comp_fotovoltaico });
 });
 
+app.delete(
+    "/componentes/:id_comp_fotovoltaico",
+    handleAuthentication,
+    async (req, res) => {
+        await ComponentRepository.deleteComponentById(
+            req.params.id_comp_fotovoltaico
+        );
+
+        res.sendStatus(204);
+    }
+);
+
 app.use(handleError);
 
 app.listen(PORT, () => {
