@@ -70,6 +70,19 @@ app.delete(
     }
 );
 
+app.put(
+    "/componentes/:id_comp_fotovoltaico",
+    handleAuthentication,
+    async (req, res) => {
+        await ComponentRepository.updateComponentById(
+            req.params.id_comp_fotovoltaico,
+            req.body
+        );
+
+        res.sendStatus(204);
+    }
+);
+
 app.use(handleError);
 
 app.listen(PORT, () => {
