@@ -49,6 +49,15 @@ app.get("/componentes", handleAuthentication, async (req, res) => {
     res.json(componentes);
 });
 
+app.post("/componentes", handleAuthentication, async (req, res) => {
+    const id_comp_fotovoltaico = await ComponentRepository.insertComponent({
+        ...req.body,
+        id_usuario: req.user.id_usuario,
+    });
+
+    res.json({ id_comp_fotovoltaico });
+});
+
 app.use(handleError);
 
 app.listen(PORT, () => {
