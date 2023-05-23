@@ -43,17 +43,27 @@ app.post("/login", async (req, res, next) => {
     res.json({ token });
 });
 
-app.get("/componentes", handleAuthentication, async (req, res) => {
-    const componentes = await ComponentRepository.findComponents(req.query);
+app.get("/componentes", handleAuthentication, async (req, res, next) => {
+    let components;
+    try {
+        components = await ComponentRepository.findComponents(req.query);
+    } catch (e) {
+        next(e);
+    }
 
-    res.json(componentes);
+    res.json(components);
 });
 
-app.post("/componentes", handleAuthentication, async (req, res) => {
-    const id_comp_fotovoltaico = await ComponentRepository.insertComponent({
-        ...req.body,
-        id_usuario: req.user.id_usuario,
-    });
+app.post("/componentes", handleAuthentication, async (req, res, next) => {
+    let id_comp_fotovoltaico;
+    try {
+        id_comp_fotovoltaico = await ComponentRepository.insertComponent({
+            ...req.body,
+            id_usuario: req.user.id_usuario,
+        });
+    } catch (e) {
+        return next(e);
+    }
 
     res.json({ id_comp_fotovoltaico });
 });
@@ -61,10 +71,14 @@ app.post("/componentes", handleAuthentication, async (req, res) => {
 app.delete(
     "/componentes/:id_comp_fotovoltaico",
     handleAuthentication,
-    async (req, res) => {
-        await ComponentRepository.deleteComponentById(
-            req.params.id_comp_fotovoltaico
-        );
+    async (req, res, next) => {
+        try {
+            await ComponentRepository.deleteComponentById(
+                req.params.id_comp_fotovoltaico
+            );
+        } catch (e) {
+            next(e);
+        }
 
         res.sendStatus(204);
     }
@@ -73,11 +87,15 @@ app.delete(
 app.put(
     "/componentes/:id_comp_fotovoltaico",
     handleAuthentication,
-    async (req, res) => {
-        await ComponentRepository.updateComponentById(
-            req.params.id_comp_fotovoltaico,
-            req.body
-        );
+    async (req, res, next) => {
+        try {
+            await ComponentRepository.updateComponentById(
+                req.params.id_comp_fotovoltaico,
+                req.body
+            );
+        } catch (e) {
+            next(e);
+        }
 
         res.sendStatus(204);
     }
