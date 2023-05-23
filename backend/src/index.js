@@ -24,7 +24,7 @@ app.post("/signup", async (req, res, next) => {
     try {
         token = await UserController.signup(email, nome, senha);
     } catch (e) {
-        next(e);
+        return next(e);
     }
 
     res.json({ token });
@@ -37,7 +37,7 @@ app.post("/login", async (req, res, next) => {
     try {
         token = await UserController.login(email, senha);
     } catch (e) {
-        next(e);
+        return next(e);
     }
 
     res.json({ token });

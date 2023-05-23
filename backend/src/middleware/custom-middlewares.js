@@ -11,20 +11,20 @@ function handleAuthentication(req, res, next) {
     const token = req.headers.authorization;
 
     if (!token) {
-        next(new UnauthorizedError());
-    } else {
-        try {
-            const decoded = jwt.verify(
-                token.replace("Bearer ", ""),
-                JWT_SECRET_KEY
-            );
+        return next(new UnauthorizedError());
+    }
 
-            req.user = decoded;
+    try {
+        const decoded = jwt.verify(
+            token.replace("Bearer ", ""),
+            JWT_SECRET_KEY
+        );
 
-            next();
-        } catch (error) {
-            next(new InvalidTokenError());
-        }
+        req.user = decoded;
+
+        return next();
+    } catch (error) {
+        return next(new InvalidTokenError());
     }
 }
 
