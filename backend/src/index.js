@@ -44,7 +44,7 @@ app.post("/login", async (req, res, next) => {
 });
 
 app.get("/componentes", handleAuthentication, async (req, res) => {
-    const componentes = await ComponentRepository.findComponents();
+    const componentes = await ComponentRepository.findComponents(req.query);
 
     res.json(componentes);
 });
