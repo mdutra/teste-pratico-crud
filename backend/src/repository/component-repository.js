@@ -143,7 +143,11 @@ async function aggregateCubagem(input) {
 
     const response = await db.raw(sql);
 
-    return response.rows;
+    return {
+        cubagem: response.rows[0].cubagem,
+        pesoBruto: response.rows[0].pesobruto,
+        pesoLiquido: response.rows[0].pesoliquido,
+    };
 }
 
 module.exports = {
