@@ -101,6 +101,17 @@ app.put(
     }
 );
 
+app.post("/projetos/cubagem", handleAuthentication, async (req, res, next) => {
+    let response;
+    try {
+        response = await ComponentRepository.aggregateCubagem(req.body);
+    } catch (e) {
+        return next(e);
+    }
+
+    res.json(response);
+});
+
 app.use(handleError);
 
 app.listen(PORT, () => {

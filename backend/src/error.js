@@ -30,11 +30,20 @@ class InvalidTokenError extends Error {
     }
 }
 
+class InvalidRequestError extends Error {
+    constructor(message) {
+        super(message || "Requisição inválida");
+        this.statusCode = 400;
+        this.message;
+    }
+}
+
 const errorTypes = [
     EmailExists,
     InvalidEmailOrPassword,
     UnauthorizedError,
     InvalidTokenError,
+    InvalidRequestError,
 ];
 
 module.exports = {
@@ -43,4 +52,5 @@ module.exports = {
     InvalidEmailOrPassword,
     UnauthorizedError,
     InvalidTokenError,
+    InvalidRequestError,
 };

@@ -1,4 +1,5 @@
 const db = require("./knex-client");
+const { InvalidRequestError } = require("../error");
 
 async function findComponents({ nome, id_grupo }) {
     const query = db("comp_fotovoltaico").select("*").whereNull("deleted_at");
@@ -107,9 +108,48 @@ async function updateComponentById(
     }
 }
 
+async function aggregateCubagem(input) {
+    const whenClause = input
+        .map(({ id, quantidade }) => {
+            if (!id || !quantidade) throw new InvalidRequestError();
+
+            return `WHEN id_comp_fotovoltaico = ${id} THEN ${quantidade}`;
+        })
+        .join("\n");
+
+    const idsList = input.map(({ id }) => id).join(",");
+
+    const sql = `
+    SELECT
+      SUM(cubagem_individual) AS cubagem,
+      SUM(peso_liquido_individual) AS pesoLiquido,
+      SUM(peso_bruto_individual) AS pesoBruto
+    FROM (
+      SELECT
+        id_comp_fotovoltaico,
+        altura * largura * profundidade * CASE
+          ${whenClause}
+        END AS cubagem_individual,
+        peso_liquido * CASE
+          ${whenClause}
+        END AS peso_liquido_individual,
+        peso_bruto * CASE
+          ${whenClause}
+        END AS peso_bruto_individual
+    FROM comp_fotovoltaico
+    WHERE id_comp_fotovoltaico IN (${idsList})
+    ) AS calculo_individual;
+`;
+
+    const response = await db.raw(sql);
+
+    return response.rows;
+}
+
 module.exports = {
     findComponents,
     insertComponent,
     deleteComponentById,
     updateComponentById,
+    aggregateCubagem,
 };
