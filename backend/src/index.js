@@ -20,27 +20,27 @@ app.use(cors());
 app.post("/signup", async (req, res, next) => {
     const { email, nome, senha } = req.body;
 
-    let token;
+    let response;
     try {
-        token = await UserController.signup(email, nome, senha);
+        response = await UserController.signup(email, nome, senha);
     } catch (e) {
         return next(e);
     }
 
-    res.json({ token });
+    res.json(response);
 });
 
 app.post("/login", async (req, res, next) => {
     const { email, senha } = req.body;
 
-    let token;
+    let response;
     try {
-        token = await UserController.login(email, senha);
+        response = await UserController.login(email, senha);
     } catch (e) {
         return next(e);
     }
 
-    res.json({ token });
+    res.json(response);
 });
 
 app.get("/componentes", handleAuthentication, async (req, res, next) => {
