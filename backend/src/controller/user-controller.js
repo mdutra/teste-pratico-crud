@@ -13,17 +13,20 @@ async function signup(email, nome, senha) {
 
     const hashedPassword = await bcrypt.hash(senha, 10);
 
-    const id_usuario = await UserRepository.insertUser(
+    const newUser = await UserRepository.insertUser(
         email,
         nome,
         hashedPassword
     );
 
-    const token = jwt.sign({ id_usuario }, JWT_SECRET_KEY, {
-        expiresIn: "1h",
+    const token = jwt.sign({ id_usuario: newUser.id_usuario }, JWT_SECRET_KEY, {
+        expiresIn: "12h",
     });
 
-    return token;
+    return {
+        nome: newUser.nome,
+        token,
+    };
 }
 
 async function login(email, senha) {
@@ -40,10 +43,13 @@ async function login(email, senha) {
     const token = jwt.sign(
         { id_usuario: existingUser.id_usuario },
         JWT_SECRET_KEY,
-        { expiresIn: "1h" }
+        { expiresIn: "12h" }
     );
 
-    return token;
+    return {
+        nome: existingUser.nome,
+        token,
+    };
 }
 
 module.exports = {

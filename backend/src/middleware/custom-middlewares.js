@@ -35,6 +35,7 @@ function handleError(err, req, res, next) {
         }
     }
 
+    console.error(`${err.name}: ${err.message}`);
     res.status(500).json({ erro: "Erro interno do servidor" });
 }
 

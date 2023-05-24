@@ -1,15 +1,18 @@
 const db = require("./knex-client");
 
 async function insertUser(email, nome, senha) {
-    const newUser = await db("usuario")
+    const [newUser] = await db("usuario")
         .insert({
             email,
             nome,
             senha,
         })
-        .returning("id_usuario");
+        .returning(["id_usuario", "nome"]);
 
-    return newUser[0].id_usuario;
+    return {
+        id_usuario: newUser.id_usuario,
+        nome: newUser.nome,
+    };
 }
 
 async function findUserByEmail(email) {
