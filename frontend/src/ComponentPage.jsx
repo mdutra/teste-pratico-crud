@@ -171,7 +171,6 @@ function DataTable() {
         <DataGrid
           rows={data}
           columns={columns}
-          checkboxSelection
           disableRowSelectionOnClick
           hideFooter
         />
