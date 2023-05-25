@@ -39,7 +39,7 @@ function CreateComponentPage() {
         navigate("/components");
       }
     } catch (error) {
-      console.error('Error occurred during login:', error);
+      console.error('Error occurred:', error);
     }
   };
 
