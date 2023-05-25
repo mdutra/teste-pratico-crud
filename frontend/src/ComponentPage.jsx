@@ -1,4 +1,5 @@
 import { useEffect, useState ,useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { Grid, Button, Box, Toolbar, Divider, Typography, Select, TextField, MenuItem } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 import AuthContext from './auth-context'
@@ -121,12 +122,12 @@ function ComponentPage() {
               <MenuItem value={1}>Perfil</MenuItem>
               <MenuItem value={2}>Modulo</MenuItem>
               <MenuItem value={3}>Inversor</MenuItem>
-              <MenuItem value={3}>Cabos</MenuItem>
-              <MenuItem value={3}>Conectores</MenuItem>
-              <MenuItem value={3}>Bateria</MenuItem>
+              <MenuItem value={4}>Cabos</MenuItem>
+              <MenuItem value={5}>Conectores</MenuItem>
+              <MenuItem value={6}>Bateria</MenuItem>
             </Select>
           </Box>
-          <Button variant="contained">Cadastrar Componente</Button>
+          <Button component={Link} to="/components/create" variant="contained">Cadastrar Novo Componente</Button>
         </Toolbar>
         <DataTable />
       </Grid>

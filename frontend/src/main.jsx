@@ -10,6 +10,7 @@ import Layout from './Layout.jsx'
 import LoginPage from './LoginPage.jsx'
 import AuthProvider from './AuthProvider.jsx'
 import ComponentPage from './ComponentPage.jsx'
+import CreateComponentPage from './CreateComponentPage.jsx'
 import RequireAuth from './RequireAuth.jsx'
 
 const router = createBrowserRouter([
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: '/components',
         element: <RequireAuth><ComponentPage /></RequireAuth>,
+      },
+      {
+        path: '/components/create',
+        element: <RequireAuth><CreateComponentPage /></RequireAuth>,
       },
     ],
   },
