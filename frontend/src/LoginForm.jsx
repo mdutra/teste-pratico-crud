@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from './auth-context'
 import { TextField, Button, Grid, Container, Typography } from '@mui/material'
@@ -6,13 +6,11 @@ import { TextField, Button, Grid, Container, Typography } from '@mui/material'
 function LoginForm() {
   let navigate = useNavigate();
   let auth = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
-    const senha = formData.get("senha");
 
     try {
       const response = await fetch('http://localhost:5000/login', {
@@ -40,7 +38,7 @@ function LoginForm() {
     if (auth.user) {
       navigate("/components", { replace: true });
     }
-  })
+  }, [auth.user, navigate])
 
   return (
     <Container fixed>
@@ -50,13 +48,13 @@ function LoginForm() {
             <Typography variant="h5">Login</Typography>
           </Grid>
           <Grid item xs={12}>
-            <TextField label="Email" name="email" type="email" />
+            <TextField label="Email" name="email" type="email" onChange={e => setEmail(e.target.value)} />
           </Grid>
           <Grid item xs={12}>
-            <TextField label="Senha" name="senha" type="password" />
+            <TextField label="Senha" name="senha" type="password" onChange={e => setSenha(e.target.value)}/>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" type="submit">Entrar</Button>
+            <Button disabled={!email || !senha} variant="contained" type="submit">Entrar</Button>
           </Grid>
         </Grid>
       </form>
