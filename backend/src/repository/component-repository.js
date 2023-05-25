@@ -14,6 +14,10 @@ async function findComponents({ nome, id_grupo }) {
     return query;
 }
 
+async function findComponentById(id_comp_fotovoltaico) {
+    return db("comp_fotovoltaico").where({ id_comp_fotovoltaico }).first();
+}
+
 // os parametros estão todos explícitos para não inserir valores indesejados
 // como por exemplo: deleted_at
 async function insertComponent({
@@ -152,6 +156,7 @@ async function aggregateCubagem(input) {
 
 module.exports = {
     findComponents,
+    findComponentById,
     insertComponent,
     deleteComponentById,
     updateComponentById,

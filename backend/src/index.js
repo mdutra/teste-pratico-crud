@@ -54,6 +54,17 @@ app.get("/componentes", handleAuthentication, async (req, res, next) => {
     res.json(components);
 });
 
+app.get("/componentes/:id_comp_fotovoltaico", handleAuthentication, async (req, res, next) => {
+    let component;
+    try {
+        component = await ComponentRepository.findComponentById(req.params.id_comp_fotovoltaico);
+    } catch (e) {
+        return next(e);
+    }
+
+    res.json(component);
+});
+
 app.post("/componentes", handleAuthentication, async (req, res, next) => {
     let id_comp_fotovoltaico;
     try {
