@@ -100,10 +100,10 @@ function CreateComponentPage() {
             <TextField label="Profundidade" name="profundidade" type="number" value={profundidade} onChange={e => setProfundidade(posify(e.target.value))}/>
           </Grid>
           <Grid item xs={2}>
-            <TextField label="Peso líquido" name="peso_bruto" type="number" value={peso_bruto} onChange={e => setPesoBruto(posify(e.target.value))}/>
+            <TextField label="Peso líquido" name="peso_liquido" type="number" value={peso_liquido} onChange={e => setPesoLiquido(posify(e.target.value))}/>
           </Grid>
           <Grid item xs={10}>
-            <TextField label="Peso bruto" name="peso_liquido" type="number" value={peso_liquido} onChange={e => setPesoLiquido(posify(e.target.value))}/>
+            <TextField label="Peso bruto" name="peso_bruto" type="number" value={peso_bruto} onChange={e => setPesoBruto(posify(e.target.value))}/>
           </Grid>
           <Grid item xs={2}>
             <Button disabled={hasMissingFields()} variant="contained" type="submit">Cadastrar</Button>
