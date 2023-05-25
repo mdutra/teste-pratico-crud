@@ -13,7 +13,7 @@ function Layout() {
           <AuthStatus />
         </Toolbar>
       </AppBar>
-      <Container fixed>
+      <Container maxWidth="xl">
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Paper elevation={3} style={{ margin: '20px', padding: '10px' }}>
