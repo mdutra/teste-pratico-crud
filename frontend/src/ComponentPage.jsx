@@ -4,10 +4,25 @@ import { Grid, Button, Box, Toolbar, Divider, Typography, Select, TextField, Men
 import { DataGrid } from '@mui/x-data-grid';
 import AuthContext from './auth-context'
 
+const Grupos = {
+  "1": "Perfil",
+  "2": "Modulo",
+  "3": "Inversor",
+  "4": "Cabos",
+  "5": "Conectores",
+  "6": "Bateria",
+}
+
 const staticColumns = [
     { field: 'nome', headerName: 'Nome', width: 130 },
     { field: 'gtin', headerName: 'GTIN', width: 130 },
     { field: 'segmento', headerName: 'Segmento', width: 80 },
+    {
+      field: 'grupo',
+      headerName: 'Grupo',
+      width: 100,
+      valueGetter: (params) => Grupos[params.row.id_grupo],
+    },
     {
       field: 'altura',
       headerName: 'Altura',
@@ -44,6 +59,7 @@ function DataTable() {
   let auth = useContext(AuthContext);
   const [data,setData] = useState([]);
   const [nomeFilter, setNomeFilter] = useState('');
+  const [grupoFilter, setGrupoFilter] = useState(0);
   const [refreshFlag, setRefreshFlag] = useState(false);
 
   const columns = [
@@ -97,6 +113,9 @@ function DataTable() {
       if (nomeFilter) {
         params.nome = nomeFilter;
       }
+      if (grupoFilter) {
+        params.id_grupo = grupoFilter;
+      }
 
       const queryString = new URLSearchParams(params).toString()
 
@@ -117,7 +136,7 @@ function DataTable() {
     }
 
       fetchData()
-  }, [auth.user, refreshFlag, nomeFilter])
+  }, [auth.user, refreshFlag, nomeFilter, grupoFilter])
 
   return (
     <>
@@ -133,9 +152,9 @@ function DataTable() {
           <Select
               labelId="select-group"
               id="select-group-1"
-              value={0}
+              value={grupoFilter}
               label="Grupo"
-              onChange={() => null}
+              onChange={e => setGrupoFilter(e.target.value)}
             >
             <MenuItem value={0}>Todos os Grupos</MenuItem>
             <MenuItem value={1}>Perfil</MenuItem>
