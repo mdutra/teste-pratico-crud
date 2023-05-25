@@ -5,7 +5,7 @@ async function findComponents({ nome, id_grupo }) {
     const query = db("comp_fotovoltaico").select("*").whereNull("deleted_at");
 
     if (nome) {
-        query.where("nome", "LIKE", `%${nome}%`);
+        query.where("nome", "ILIKE", `%${nome}%`);
     }
     if (id_grupo) {
         query.where("id_grupo", "=", id_grupo);

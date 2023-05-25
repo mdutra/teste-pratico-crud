@@ -43,6 +43,7 @@ const staticColumns = [
 function DataTable() {
   let auth = useContext(AuthContext);
   const [data,setData] = useState([]);
+  const [nomeFilter, setNomeFilter] = useState('');
   const [refreshFlag, setRefreshFlag] = useState(false);
 
   const columns = [
@@ -91,8 +92,16 @@ function DataTable() {
 
   useEffect(() => {
     const fetchData = async () => {
+      const params = {}
+
+      if (nomeFilter) {
+        params.nome = nomeFilter;
+      }
+
+      const queryString = new URLSearchParams(params).toString()
+
       try {
-        const data = await fetch('http://localhost:5000/componentes', {
+        const data = await fetch('http://localhost:5000/componentes?' + queryString, {
           headers: {
             'Authorization': `Bearer ${auth.user.token}`
           }
@@ -108,18 +117,47 @@ function DataTable() {
     }
 
       fetchData()
-  }, [auth.user, refreshFlag])
+  }, [auth.user, refreshFlag, nomeFilter])
 
   return (
-    <div style={{ minHeight: 400, width: '100%' }}>
-      <DataGrid
-        rows={data}
-        columns={columns}
-        checkboxSelection
-        disableRowSelectionOnClick
-        hideFooter
-      />
-    </div>
+    <>
+      <Toolbar>
+        <Box sx={{ flexGrow: 1 }}>
+          <TextField label="Filtrar por nome" name="filter" type="text"
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  setNomeFilter(event.target.value);
+                }
+              }}
+          />
+          <Select
+              labelId="select-group"
+              id="select-group-1"
+              value={0}
+              label="Grupo"
+              onChange={() => null}
+            >
+            <MenuItem value={0}>Todos os Grupos</MenuItem>
+            <MenuItem value={1}>Perfil</MenuItem>
+            <MenuItem value={2}>Modulo</MenuItem>
+            <MenuItem value={3}>Inversor</MenuItem>
+            <MenuItem value={4}>Cabos</MenuItem>
+            <MenuItem value={5}>Conectores</MenuItem>
+            <MenuItem value={6}>Bateria</MenuItem>
+          </Select>
+        </Box>
+        <Button component={Link} to="/components/create" variant="contained">Cadastrar Novo Componente</Button>
+      </Toolbar>
+      <div style={{ minHeight: 400, width: '100%' }}>
+        <DataGrid
+          rows={data}
+          columns={columns}
+          checkboxSelection
+          disableRowSelectionOnClick
+          hideFooter
+        />
+      </div>
+    </>
   );
 }
 
@@ -131,27 +169,6 @@ function ComponentPage() {
         <Divider />
       </Grid>
       <Grid item xs={12}>
-        <Toolbar>
-          <Box sx={{ flexGrow: 1 }}>
-            <TextField label="Filtrar por nome" name="filter" type="text" />
-            <Select
-                labelId="select-group"
-                id="select-group-1"
-                value={0}
-                label="Grupo"
-                onChange={() => null}
-              >
-              <MenuItem value={0}>Todos os Grupos</MenuItem>
-              <MenuItem value={1}>Perfil</MenuItem>
-              <MenuItem value={2}>Modulo</MenuItem>
-              <MenuItem value={3}>Inversor</MenuItem>
-              <MenuItem value={4}>Cabos</MenuItem>
-              <MenuItem value={5}>Conectores</MenuItem>
-              <MenuItem value={6}>Bateria</MenuItem>
-            </Select>
-          </Box>
-          <Button component={Link} to="/components/create" variant="contained">Cadastrar Novo Componente</Button>
-        </Toolbar>
         <DataTable />
       </Grid>
     </Grid>
