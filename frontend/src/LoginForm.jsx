@@ -48,10 +48,10 @@ function LoginForm() {
             <Typography variant="h5">Login</Typography>
           </Grid>
           <Grid item xs={12}>
-            <TextField label="Email" name="email" type="email" onChange={e => setEmail(e.target.value)} />
+            <TextField label="Email" name="email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
           </Grid>
           <Grid item xs={12}>
-            <TextField label="Senha" name="senha" type="password" onChange={e => setSenha(e.target.value)}/>
+            <TextField label="Senha" name="senha" type="password" value={senha} onChange={e => setSenha(e.target.value)}/>
           </Grid>
           <Grid item xs={12}>
             <Button disabled={!email || !senha} variant="contained" type="submit">Entrar</Button>

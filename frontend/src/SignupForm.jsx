@@ -42,13 +42,13 @@ function SignupForm() {
             <Typography variant="h5">Cadastro</Typography>
           </Grid>
           <Grid item xs={12}>
-            <TextField label="Nome" name="nome" type="text" onChange={e => setNome(e.target.value)}/>
+            <TextField label="Nome" name="nome" type="text" value={nome} onChange={e => setNome(e.target.value)}/>
           </Grid>
           <Grid item xs={12}>
-            <TextField label="Email" name="email" type="email" onChange={e => setEmail(e.target.value)} />
+            <TextField label="Email" name="email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
           </Grid>
           <Grid item xs={12}>
-            <TextField label="Senha" name="senha" type="password" onChange={e => setSenha(e.target.value)}/>
+            <TextField label="Senha" name="senha" type="password" value={senha} onChange={e => setSenha(e.target.value)}/>
           </Grid>
           <Grid item xs={12}>
             <Button disabled={!nome || !email || !senha} variant="contained" type="submit">Cadastrar</Button>
