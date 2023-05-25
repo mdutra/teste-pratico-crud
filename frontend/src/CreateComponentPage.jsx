@@ -57,16 +57,16 @@ function CreateComponentPage() {
             <Typography variant="h5">Cadastrar Componente Fotovoltaico</Typography>
           </Grid>
           <Grid item xs={12}>
-            <TextField label="Nome" name="nome" type="text" onChange={e => setNome(e.target.value)} />
+            <TextField label="Nome" name="nome" type="text" value={nome} onChange={e => setNome(e.target.value)} />
           </Grid>
           <Grid item xs={12}>
-            <TextField label="GTIN" name="gtin" type="text" onChange={e => setGtin(e.target.value)}/>
+            <TextField label="GTIN" name="gtin" type="text" value={gtin} onChange={e => setGtin(e.target.value)}/>
           </Grid>
           <Grid item xs={2}>
             <Select
                 labelId="select-segmento"
                 id="select-segmento-1"
-                value={"Ongrid"}
+                value={segmento}
                 label="Segmento"
                 onChange={e => setSegmento(e.target.value)}
               >
@@ -78,7 +78,7 @@ function CreateComponentPage() {
             <Select
                 labelId="select-group"
                 id="select-group-1"
-                value={1}
+                value={id_grupo}
                 label="Grupo"
                 onChange={e => setGrupo(e.target.value)}
               >
