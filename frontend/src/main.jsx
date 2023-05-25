@@ -11,6 +11,7 @@ import LoginPage from './LoginPage.jsx'
 import AuthProvider from './AuthProvider.jsx'
 import ComponentPage from './ComponentPage.jsx'
 import CreateComponentPage from './CreateComponentPage.jsx'
+import UpdateComponentPage from './UpdateComponentPage.jsx'
 import RequireAuth from './RequireAuth.jsx'
 
 const router = createBrowserRouter([
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: '/components/create',
         element: <RequireAuth><CreateComponentPage /></RequireAuth>,
+      },
+      {
+        path: '/components/update/:id_comp_fotovoltaico',
+        element: <RequireAuth><UpdateComponentPage /></RequireAuth>,
       },
     ],
   },

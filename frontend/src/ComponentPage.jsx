@@ -52,7 +52,7 @@ function DataTable() {
       width: 90,
       renderCell: ({ row }) =>
         <Button
-          onClick={() => console.log(row.id)}
+          component={Link} to={`/components/update/${row.id}`}
         >
           Editar
         </Button>,
