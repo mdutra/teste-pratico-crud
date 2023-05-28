@@ -1,4 +1,4 @@
-import { useEffect, useState ,useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Grid, Button, Box, Toolbar, Divider, Typography, Select, TextField, MenuItem } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
@@ -14,50 +14,50 @@ const Grupos = {
 }
 
 const staticColumns = [
-    { field: 'nome', headerName: 'Nome', width: 130 },
-    { field: 'gtin', headerName: 'GTIN', width: 130 },
-    { field: 'segmento', headerName: 'Segmento', width: 80 },
-    {
-      field: 'grupo',
-      headerName: 'Grupo',
-      width: 100,
-      valueGetter: (params) => Grupos[params.row.id_grupo],
-    },
-    {
-      field: 'altura',
-      headerName: 'Altura',
-      type: 'number',
-      width: 90,
-    },
-    {
-      field: 'largura',
-      headerName: 'Largura',
-      type: 'number',
-      width: 90,
-    },
-    {
-      field: 'profundidade',
-      headerName: 'Profundidade',
-      type: 'number',
-      width: 100,
-    },
-    {
-      field: 'peso_liquido',
-      headerName: 'Peso líquido',
-      type: 'number',
-      width: 90,
-    },
-    {
-      field: 'peso_bruto',
-      headerName: 'Peso bruto',
-      type: 'number',
-      width: 90,
-    },
+  { field: 'nome', headerName: 'Nome', width: 130 },
+  { field: 'gtin', headerName: 'GTIN', width: 130 },
+  { field: 'segmento', headerName: 'Segmento', width: 80 },
+  {
+    field: 'grupo',
+    headerName: 'Grupo',
+    width: 100,
+    valueGetter: (params) => Grupos[params.row.id_grupo],
+  },
+  {
+    field: 'altura',
+    headerName: 'Altura',
+    type: 'number',
+    width: 90,
+  },
+  {
+    field: 'largura',
+    headerName: 'Largura',
+    type: 'number',
+    width: 90,
+  },
+  {
+    field: 'profundidade',
+    headerName: 'Profundidade',
+    type: 'number',
+    width: 100,
+  },
+  {
+    field: 'peso_liquido',
+    headerName: 'Peso líquido',
+    type: 'number',
+    width: 90,
+  },
+  {
+    field: 'peso_bruto',
+    headerName: 'Peso bruto',
+    type: 'number',
+    width: 90,
+  },
 ]
 
 function DataTable() {
   let auth = useContext(AuthContext);
-  const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
   const [nomeFilter, setNomeFilter] = useState('');
   const [grupoFilter, setGrupoFilter] = useState(0);
   const [refreshFlag, setRefreshFlag] = useState(false);
@@ -94,16 +94,16 @@ function DataTable() {
   ];
 
   const deleteComponent = async (rowId) => {
-      try {
-        await fetch(`http://localhost:5000/componentes/${rowId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${auth.user.token}`,
-          },
-        });
-      } catch (error) {
-        console.error('Error occurred:', error);
-      }
+    try {
+      await fetch(`http://localhost:5000/componentes/${rowId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${auth.user.token}`,
+        },
+      });
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
   }
 
   useEffect(() => {
@@ -130,12 +130,12 @@ function DataTable() {
           id: d.id_comp_fotovoltaico,
           ...d,
         })))
-      } catch(e) {
+      } catch (e) {
         console.error(e)
       }
     }
 
-      fetchData()
+    fetchData()
   }, [auth.user, refreshFlag, nomeFilter, grupoFilter])
 
   return (
@@ -143,19 +143,19 @@ function DataTable() {
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
           <TextField label="Filtrar por nome" name="filter" type="text"
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') {
-                  setNomeFilter(event.target.value);
-                }
-              }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                setNomeFilter(event.target.value);
+              }
+            }}
           />
           <Select
-              labelId="select-group"
-              id="select-group-1"
-              value={grupoFilter}
-              label="Grupo"
-              onChange={e => setGrupoFilter(e.target.value)}
-            >
+            labelId="select-group"
+            id="select-group-1"
+            value={grupoFilter}
+            label="Grupo"
+            onChange={e => setGrupoFilter(e.target.value)}
+          >
             <MenuItem value={0}>Todos os Grupos</MenuItem>
             <MenuItem value={1}>Perfil</MenuItem>
             <MenuItem value={2}>Modulo</MenuItem>
