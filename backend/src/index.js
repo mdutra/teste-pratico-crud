@@ -8,7 +8,7 @@ const {
 const UserController = require("./controller/user-controller");
 const ComponentRepository = require("./repository/component-repository");
 
-const PORT = 5000;
+const PORT = process.env.LISTEN_PORT;
 
 const app = express();
 
