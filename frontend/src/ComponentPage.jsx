@@ -125,6 +125,9 @@ function DataTable() {
             'Authorization': `Bearer ${auth.user.token}`
           }
         })
+        if (!data.ok && data.status === 403) {
+          auth.signout()
+        }
         const json = await data.json()
         setData(json.map(d => ({
           id: d.id_comp_fotovoltaico,
@@ -136,7 +139,7 @@ function DataTable() {
     }
 
     fetchData()
-  }, [auth.user, refreshFlag, nomeFilter, grupoFilter])
+  }, [auth, refreshFlag, nomeFilter, grupoFilter])
 
   return (
     <>
