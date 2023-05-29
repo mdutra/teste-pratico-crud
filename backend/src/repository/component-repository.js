@@ -9,8 +9,6 @@ async function findComponents({ nome, id_grupo, include_user }) {
             "c.gtin",
             "c.segmento",
             "c.id_grupo",
-            "u.id_usuario as usuario_id_usuario",
-            "u.nome as usuario_nome",
             "c.altura",
             "c.largura",
             "c.profundidade",
@@ -19,22 +17,23 @@ async function findComponents({ nome, id_grupo, include_user }) {
             "c.created_at",
             "c.updated_at"
         )
-        .whereNull("deleted_at")
+        .whereNull("c.deleted_at")
         .modify((queryBuilder) => {
             if (include_user) {
-                queryBuilder.leftJoin(
-                    "usuario as u",
-                    "c.id_usuario",
-                    "u.id_usuario"
-                );
+                queryBuilder
+                    .select(
+                        "u.id_usuario as usuario_id_usuario",
+                        "u.nome as usuario_nome"
+                    )
+                    .leftJoin("usuario as u", "c.id_usuario", "u.id_usuario");
             }
         });
 
     if (nome) {
-        query.where("nome", "ILIKE", `%${nome}%`);
+        query.where("c.nome", "ILIKE", `%${nome}%`);
     }
     if (id_grupo) {
-        query.where("id_grupo", "=", id_grupo);
+        query.where("c.id_grupo", "=", id_grupo);
     }
 
     const dbResponse = await query;
