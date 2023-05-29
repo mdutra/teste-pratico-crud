@@ -53,6 +53,11 @@ const staticColumns = [
     type: 'number',
     width: 90,
   },
+  {
+    field: 'usuario_nome',
+    headerName: 'Usuário que criou/alterou',
+    width: 200,
+  },
 ]
 
 function DataTable() {
@@ -108,7 +113,9 @@ function DataTable() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const params = {}
+      const params = {
+        include_user: true
+      }
 
       if (nomeFilter) {
         params.nome = nomeFilter;
@@ -131,6 +138,7 @@ function DataTable() {
         const json = await data.json()
         setData(json.map(d => ({
           id: d.id_comp_fotovoltaico,
+          usuario_nome: d.usuario.nome,
           ...d,
         })))
       } catch (e) {
