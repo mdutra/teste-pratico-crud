@@ -48,6 +48,7 @@ app.get("/componentes", handleAuthentication, async (req, res, next) => {
         nome: req.query.nome,
         id_grupo: req.query.id_grupo,
         include_user: req.query.include_user === "true",
+        ids_comp_fotovoltaico: req.query.ids_comp_fotovoltaico?.split(","),
     };
 
     let components;

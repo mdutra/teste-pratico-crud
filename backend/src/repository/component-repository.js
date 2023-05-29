@@ -1,7 +1,12 @@
 const db = require("./knex-client");
 const { InvalidRequestError } = require("../error");
 
-async function findComponents({ nome, id_grupo, include_user }) {
+async function findComponents({
+    nome,
+    id_grupo,
+    include_user,
+    ids_comp_fotovoltaico,
+}) {
     const query = db("comp_fotovoltaico as c")
         .select(
             "c.id_comp_fotovoltaico",
@@ -24,6 +29,12 @@ async function findComponents({ nome, id_grupo, include_user }) {
             }
             if (id_grupo) {
                 queryBuilder.where("c.id_grupo", "=", id_grupo);
+            }
+            if (ids_comp_fotovoltaico) {
+                queryBuilder.whereIn(
+                    "c.id_comp_fotovoltaico",
+                    ids_comp_fotovoltaico
+                );
             }
             if (include_user) {
                 queryBuilder
