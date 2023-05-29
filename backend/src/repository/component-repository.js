@@ -19,6 +19,12 @@ async function findComponents({ nome, id_grupo, include_user }) {
         )
         .whereNull("c.deleted_at")
         .modify((queryBuilder) => {
+            if (nome) {
+                queryBuilder.where("c.nome", "ILIKE", `%${nome}%`);
+            }
+            if (id_grupo) {
+                queryBuilder.where("c.id_grupo", "=", id_grupo);
+            }
             if (include_user) {
                 queryBuilder
                     .select(
@@ -28,13 +34,6 @@ async function findComponents({ nome, id_grupo, include_user }) {
                     .leftJoin("usuario as u", "c.id_usuario", "u.id_usuario");
             }
         });
-
-    if (nome) {
-        query.where("c.nome", "ILIKE", `%${nome}%`);
-    }
-    if (id_grupo) {
-        query.where("c.id_grupo", "=", id_grupo);
-    }
 
     const dbResponse = await query;
 
