@@ -14,7 +14,7 @@ const Grupos = {
 }
 
 const staticColumns = [
-  { field: 'nome', headerName: 'Nome', width: 130 },
+  { field: 'nome', headerName: 'Nome', width: 200 },
   { field: 'gtin', headerName: 'GTIN', width: 130 },
   { field: 'segmento', headerName: 'Segmento', width: 80 },
   {
