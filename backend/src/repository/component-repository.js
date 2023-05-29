@@ -1,8 +1,34 @@
 const db = require("./knex-client");
 const { InvalidRequestError } = require("../error");
 
-async function findComponents({ nome, id_grupo }) {
-    const query = db("comp_fotovoltaico").select("*").whereNull("deleted_at");
+async function findComponents({ nome, id_grupo, include_user }) {
+    const query = db("comp_fotovoltaico as c")
+        .select(
+            "c.id_comp_fotovoltaico",
+            "c.nome",
+            "c.gtin",
+            "c.segmento",
+            "c.id_grupo",
+            "u.id_usuario as usuario_id_usuario",
+            "u.nome as usuario_nome",
+            "c.altura",
+            "c.largura",
+            "c.profundidade",
+            "c.peso_bruto",
+            "c.peso_liquido",
+            "c.created_at",
+            "c.updated_at"
+        )
+        .whereNull("deleted_at")
+        .modify((queryBuilder) => {
+            if (include_user) {
+                queryBuilder.leftJoin(
+                    "usuario as u",
+                    "c.id_usuario",
+                    "u.id_usuario"
+                );
+            }
+        });
 
     if (nome) {
         query.where("nome", "ILIKE", `%${nome}%`);
@@ -11,7 +37,33 @@ async function findComponents({ nome, id_grupo }) {
         query.where("id_grupo", "=", id_grupo);
     }
 
-    return query;
+    const dbResponse = await query;
+
+    return dbResponse.map((c) => {
+        const formattedResponse = {
+            id_comp_fotovoltaico: c.id_comp_fotovoltaico,
+            nome: c.nome,
+            gtin: c.gtin,
+            segmento: c.segmento,
+            id_grupo: c.id_grupo,
+            altura: c.altura,
+            largura: c.largura,
+            profundidade: c.profundidade,
+            peso_bruto: c.peso_bruto,
+            peso_liquido: c.peso_liquido,
+            created_at: c.created_at,
+            updated_at: c.updated_at,
+        };
+
+        if (include_user) {
+            formattedResponse.usuario = {
+                id_usuario: c.usuario_id_usuario,
+                nome: c.usuario_nome,
+            };
+        }
+
+        return formattedResponse;
+    });
 }
 
 async function findComponentById(id_comp_fotovoltaico) {

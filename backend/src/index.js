@@ -44,9 +44,15 @@ app.post("/login", async (req, res, next) => {
 });
 
 app.get("/componentes", handleAuthentication, async (req, res, next) => {
+    const filter = {
+        nome: req.query.nome,
+        id_grupo: req.query.id_grupo,
+        include_user: req.query.include_user === "true",
+    };
+
     let components;
     try {
-        components = await ComponentRepository.findComponents(req.query);
+        components = await ComponentRepository.findComponents(filter);
     } catch (e) {
         return next(e);
     }
