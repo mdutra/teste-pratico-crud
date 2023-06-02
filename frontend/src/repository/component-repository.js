@@ -1,10 +1,10 @@
 import { getData, postData, updateData, deleteData } from '../fetch-data'
 
-async function findComponent(id_comp_fotovoltaico) {
+async function findComponentById(id_comp_fotovoltaico) {
   return getData(`componentes/${id_comp_fotovoltaico}`)
 }
 
-async function findComponents({ include_user, nome, id_grupo, ids_comp_fotovoltaico }) {
+async function findAllComponents({ include_user, nome, id_grupo, ids_comp_fotovoltaico }) {
   const params = {}
 
   if (include_user) {
@@ -29,11 +29,11 @@ async function createComponent({ nome, gtin, segmento, id_grupo, altura, largura
       return postData('componentes', { nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido });
 }
 
-async function updateComponent(id_comp_fotovoltaico, fieldsToUpdate) {
+async function updateComponentById(id_comp_fotovoltaico, fieldsToUpdate) {
   return updateData(`componentes/${id_comp_fotovoltaico}`, fieldsToUpdate);
 }
 
-async function deleteComponent(id_comp_fotovoltaico) {
+async function deleteComponentById(id_comp_fotovoltaico) {
   await deleteData(`componentes/${id_comp_fotovoltaico}`);
 }
 
@@ -47,10 +47,10 @@ async function getCubagem(input) {
 }
 
 export default {
-  findComponent,
-  findComponents,
+  findComponentById,
+  findAllComponents,
   createComponent,
-  updateComponent,
-  deleteComponent,
+  updateComponentById,
+  deleteComponentById,
   getCubagem,
 }

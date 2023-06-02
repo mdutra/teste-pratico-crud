@@ -101,7 +101,7 @@ function DataTable() {
       }
 
       try {
-        const data = await ComponentRepository.findComponents(filter)
+        const data = await ComponentRepository.findAllComponents(filter)
         if (!data.ok && data.status === 403) {
           auth.signout()
         }

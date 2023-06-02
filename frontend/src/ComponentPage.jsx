@@ -102,7 +102,7 @@ function DataTable() {
 
   const deleteComponent = async (rowId) => {
     try {
-      await ComponentRepository.deleteComponent(rowId);
+      await ComponentRepository.deleteComponentById(rowId);
     } catch (error) {
       console.error('Error occurred:', error);
     }
@@ -122,7 +122,7 @@ function DataTable() {
       }
 
       try {
-        const data = await ComponentRepository.findComponents(filter)
+        const data = await ComponentRepository.findAllComponents(filter)
         if (!data.ok && data.status === 403) {
           auth.signout()
         }
