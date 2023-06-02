@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from './auth-context'
 import { TextField, Button, Grid, Container, Typography } from '@mui/material'
+import { postData } from './fetch-data'
 
 function LoginForm() {
   let navigate = useNavigate();
@@ -13,13 +14,7 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, senha }),
-      });
+      const response = await postData('login', { email, senha });
 
       if (response.ok) {
         const { token, nome } = await response.json();

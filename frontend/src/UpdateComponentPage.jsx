@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Select, MenuItem, Button, Grid, Container, Typography } from '@mui/material'
 import AuthContext from './auth-context'
+import { getData, updateData } from './fetch-data'
 
 function posify(value) {
   return value < 1 ? 1 : value
@@ -30,11 +31,7 @@ function CreateComponentPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetch(`http://localhost:5000/componentes/${id_comp_fotovoltaico}`, {
-          headers: {
-            'Authorization': `Bearer ${auth.user.token}`
-          }
-        })
+        const data = await getData(`componentes/${id_comp_fotovoltaico}`)
         const {nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido} = await data.json()
         setData({nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido})
       } catch(e) {
@@ -49,13 +46,16 @@ function CreateComponentPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:5000/componentes/${id_comp_fotovoltaico}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${auth.user.token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido }),
+      const response = await updateData(`componentes/${id_comp_fotovoltaico}`, {
+        nome,
+        gtin,
+        segmento,
+        id_grupo,
+        altura,
+        largura,
+        profundidade,
+        peso_bruto,
+        peso_liquido,
       });
 
       if (response.ok) {

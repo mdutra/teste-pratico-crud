@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Grid, Button, Box, Toolbar, Divider, Typography, Select, TextField, MenuItem } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 import AuthContext from './auth-context'
+import { getData, deleteData } from './fetch-data'
 
 const Grupos = {
   "1": "Perfil",
@@ -101,12 +102,7 @@ function DataTable() {
 
   const deleteComponent = async (rowId) => {
     try {
-      await fetch(`http://localhost:5000/componentes/${rowId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${auth.user.token}`,
-        },
-      });
+      await deleteData(`componentes/${rowId}`);
     } catch (error) {
       console.error('Error occurred:', error);
     }
@@ -128,11 +124,7 @@ function DataTable() {
       const queryString = new URLSearchParams(params).toString()
 
       try {
-        const data = await fetch('http://localhost:5000/componentes?' + queryString, {
-          headers: {
-            'Authorization': `Bearer ${auth.user.token}`
-          }
-        })
+        const data = await getData('componentes?' + queryString)
         if (!data.ok && data.status === 403) {
           auth.signout()
         }

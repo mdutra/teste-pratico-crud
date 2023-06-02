@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { TextField, Button, Toolbar, Grid, Typography, Divider } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 import AuthContext from './auth-context'
+import { getData, postData } from './fetch-data'
 
 function posify(n) {
   return n < 1 ? 1 : n;
@@ -102,11 +103,7 @@ function DataTable() {
       const queryString = new URLSearchParams(params).toString()
 
       try {
-        const data = await fetch('http://localhost:5000/componentes?' + queryString, {
-          headers: {
-            'Authorization': `Bearer ${auth.user.token}`
-          }
-        })
+        const data = await getData('componentes?' + queryString)
         if (!data.ok && data.status === 403) {
           auth.signout()
         }
@@ -130,14 +127,7 @@ function DataTable() {
     }))
 
     try {
-      const data = await fetch('http://localhost:5000/projetos/cubagem?', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${auth.user.token}`
-        },
-        body: JSON.stringify(body),
-      })
+      const data = await postData('projetos/cubagem?', body)
       if (!data.ok && data.status === 403) {
         auth.signout()
       }

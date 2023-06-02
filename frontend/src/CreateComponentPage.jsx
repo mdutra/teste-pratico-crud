@@ -2,14 +2,13 @@ import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Select, MenuItem, Button, Grid, Container, Typography } from '@mui/material'
-import AuthContext from './auth-context'
+import { postData } from './fetch-data'
 
 function posify(value) {
   return value < 1 ? 1 : value
 }
 
 function CreateComponentPage() {
-  let auth = useContext(AuthContext);
   let navigate = useNavigate();
 
   const [nome, setNome] = useState('');
@@ -26,14 +25,7 @@ function CreateComponentPage() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/componentes', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${auth.user.token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido }),
-      });
+      const response = await postData('componentes', { nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido });
 
       if (response.ok) {
         navigate("/components");

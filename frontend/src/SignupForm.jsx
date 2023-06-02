@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Button, Grid, Container, Typography } from '@mui/material'
 import AuthContext from './auth-context'
+import { postData } from './fetch-data'
 
 function SignupForm() {
   let navigate = useNavigate();
@@ -14,12 +15,8 @@ function SignupForm() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nome, email, senha }),
+      const response = await postData('signup', {
+         nome, email, senha
       });
 
       if (response.ok) {
