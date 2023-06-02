@@ -66,6 +66,7 @@ function DataTable() {
   const [nomeFilter, setNomeFilter] = useState('');
   const [grupoFilter, setGrupoFilter] = useState(0);
   const [refreshFlag, setRefreshFlag] = useState(false);
+  const [selectedIds, setSelectedIds] = useState([]);
 
   const columns = [
     {
@@ -176,12 +177,22 @@ function DataTable() {
             <MenuItem value={6}>Bateria</MenuItem>
           </Select>
         </Box>
+        <Button
+          disabled={!selectedIds.length}
+          component={Link}
+          to={`/projeto/cubagem/${selectedIds.join(',')}`}
+          variant="contained"
+        >
+          Calcular cubagem
+        </Button>
         <Button component={Link} to="/components/create" variant="contained">Cadastrar Novo Componente</Button>
       </Toolbar>
       <div style={{ minHeight: 400, width: '100%' }}>
         <DataGrid
           rows={data}
           columns={columns}
+          checkboxSelection
+          onRowSelectionModelChange={setSelectedIds}
           disableRowSelectionOnClick
           hideFooter
         />
