@@ -34,7 +34,6 @@ function LoginForm() {
   };
 
   useEffect(() => {
-    console.log('useEffect LoginForm')
     if (auth.user) {
       navigate("/components", { replace: true });
     }

@@ -174,7 +174,6 @@ function DataTable() {
           rows={data}
           columns={columns}
           disableRowSelectionOnClick
-          onRowEditCommit={(row) => console.log(row)}
           hideFooter
         />
       </div>
