@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Button, Grid, Container, Typography } from '@mui/material'
 import AuthContext from './auth-context'
-import { postData } from './fetch-data'
+import UserRepository from './repository/user-repository'
 
 function SignupForm() {
   let navigate = useNavigate();
@@ -15,7 +15,7 @@ function SignupForm() {
     e.preventDefault();
 
     try {
-      const response = await postData('signup', {
+      const response = await UserRepository.createUser('signup', {
          nome, email, senha
       });
 

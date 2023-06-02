@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from './auth-context'
 import { TextField, Button, Grid, Container, Typography } from '@mui/material'
-import { postData } from './fetch-data'
+import UserRepository from './repository/user-repository'
 
 function LoginForm() {
   let navigate = useNavigate();
@@ -14,7 +14,7 @@ function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await postData('login', { email, senha });
+      const response = await UserRepository.loginUser({ email, senha });
 
       if (response.ok) {
         const { token, nome } = await response.json();
