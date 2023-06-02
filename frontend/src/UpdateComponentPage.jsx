@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Select, MenuItem, Button, Grid, Container, Typography } from '@mui/material'
 import AuthContext from './auth-context'
-import { getData, updateData } from './fetch-data'
+import ComponentRepository from './repository/component-repository'
 
 function posify(value) {
   return value < 1 ? 1 : value
@@ -31,7 +31,7 @@ function CreateComponentPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getData(`componentes/${id_comp_fotovoltaico}`)
+        const data = await ComponentRepository.findComponent(id_comp_fotovoltaico)
         const {nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido} = await data.json()
         setData({nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido})
       } catch(e) {
@@ -46,7 +46,7 @@ function CreateComponentPage() {
     e.preventDefault();
 
     try {
-      const response = await updateData(`componentes/${id_comp_fotovoltaico}`, {
+      const response = await ComponentRepository.updateComponent(id_comp_fotovoltaico, {
         nome,
         gtin,
         segmento,

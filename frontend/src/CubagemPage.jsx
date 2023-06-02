@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { TextField, Button, Toolbar, Grid, Typography, Divider } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 import AuthContext from './auth-context'
-import { getData, postData } from './fetch-data'
+import ComponentRepository from './repository/component-repository'
 
 function posify(n) {
   return n < 1 ? 1 : n;
@@ -96,14 +96,12 @@ function DataTable() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const params = {
+      const filter = {
         ids_comp_fotovoltaico: ids
       }
 
-      const queryString = new URLSearchParams(params).toString()
-
       try {
-        const data = await getData('componentes?' + queryString)
+        const data = await ComponentRepository.findComponents(filter)
         if (!data.ok && data.status === 403) {
           auth.signout()
         }
@@ -121,13 +119,13 @@ function DataTable() {
   }, [auth, ids])
 
   async function handleCubagemClick() {
-    const body = data.map(({ id }) => ({
+    const input = data.map(({ id }) => ({
       id,
-      quantidade: quantities[id] || 1.
+      quantidade: quantities[id],
     }))
 
     try {
-      const data = await postData('projetos/cubagem?', body)
+      const data = await ComponentRepository.getCubagem(input)
       if (!data.ok && data.status === 403) {
         auth.signout()
       }

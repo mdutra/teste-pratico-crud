@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Grid, Button, Box, Toolbar, Divider, Typography, Select, TextField, MenuItem } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid';
 import AuthContext from './auth-context'
-import { getData, deleteData } from './fetch-data'
+import ComponentRepository from './repository/component-repository'
 
 const Grupos = {
   "1": "Perfil",
@@ -102,7 +102,7 @@ function DataTable() {
 
   const deleteComponent = async (rowId) => {
     try {
-      await deleteData(`componentes/${rowId}`);
+      await ComponentRepository.deleteComponent(rowId);
     } catch (error) {
       console.error('Error occurred:', error);
     }
@@ -110,21 +110,19 @@ function DataTable() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const params = {
+      const filter = {
         include_user: true
       }
 
       if (nomeFilter) {
-        params.nome = nomeFilter;
+        filter.nome = nomeFilter;
       }
       if (grupoFilter) {
-        params.id_grupo = grupoFilter;
+        filter.id_grupo = grupoFilter;
       }
 
-      const queryString = new URLSearchParams(params).toString()
-
       try {
-        const data = await getData('componentes?' + queryString)
+        const data = await ComponentRepository.findComponents(filter)
         if (!data.ok && data.status === 403) {
           auth.signout()
         }

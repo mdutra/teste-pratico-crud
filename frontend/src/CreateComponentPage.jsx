@@ -2,7 +2,7 @@ import { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { TextField, Select, MenuItem, Button, Grid, Container, Typography } from '@mui/material'
-import { postData } from './fetch-data'
+import ComponentRepository from './repository/component-repository'
 
 function posify(value) {
   return value < 1 ? 1 : value
@@ -25,7 +25,7 @@ function CreateComponentPage() {
     e.preventDefault();
 
     try {
-      const response = await postData('componentes', { nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido });
+      const response = await ComponentRepository.createComponent({ nome, gtin, segmento, id_grupo, altura, largura, profundidade, peso_bruto, peso_liquido });
 
       if (response.ok) {
         navigate("/components");
